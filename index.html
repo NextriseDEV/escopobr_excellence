@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama Dinâmico do Projeto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        .diagram-container {
+            position: relative;
+            padding: 4rem;
+        }
+        .module-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ef4444;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Estilos para as linhas de conexão SVG */
+        .svg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite que os cliques passem para os elementos HTML abaixo */
+        }
+        .connection {
+            stroke: #6b7280;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Diagrama de Escopo do Projeto</h1>
+        <p class="text-center text-gray-600 mb-12">
+            Clique em cada módulo para ver os detalhes, funcionalidades e KPIs.
+        </p>
+
+        <!-- Diagrama principal com os módulos -->
+        <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- SVG para as linhas de conexão -->
+            <svg class="svg-container">
+                <defs>
+                    <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" />
+                    </marker>
+                </defs>
+                <!-- Conexões (serão dinâmicas, mas desenhadas aqui) -->
+                <path id="path-1-5" class="connection" d="" />
+                <path id="path-2-3" class="connection" d="" />
+                <path id="path-2-5" class="connection" d="" />
+                <path id="path-3-5" class="connection" d="" />
+                <path id="path-4-5" class="connection" d="" />
+                <path id="path-4-1" class="connection" d="" />
+                <path id="path-5-1" class="connection" d="" />
+                <path id="path-6-4" class="connection" d="" />
+                <path id="path-6-5" class="connection" d="" />
+            </svg>
+
+            <!-- Módulo 1: Direção -->
+            <div id="module-1" class="module-card bg-blue-100 border-l-4 border-blue-500 hover:bg-blue-200" data-module="1">
+                <h2 class="text-lg font-semibold text-blue-800">Módulo 1: Dashboard da Direção</h2>
+                <p class="text-gray-600 mt-2">Visão macro e instantânea da saúde da empresa.</p>
+            </div>
+            
+            <!-- Módulo 2: Vendas e Comercial -->
+            <div id="module-2" class="module-card bg-green-100 border-l-4 border-green-500 hover:bg-green-200" data-module="2">
+                <h2 class="text-lg font-semibold text-green-800">Módulo 2: Vendas e Comercial</h2>
+                <p class="text-gray-600 mt-2">Agilizar processo da prospecção ao fechamento.</p>
+            </div>
+
+            <!-- Módulo 3: Jurídico -->
+            <div id="module-3" class="module-card bg-purple-100 border-l-4 border-purple-500 hover:bg-purple-200" data-module="3">
+                <h2 class="text-lg font-semibold text-purple-800">Módulo 3: Jurídico</h2>
+                <p class="text-gray-600 mt-2">Centralizar e gerir o ciclo de vida dos contratos.</p>
+            </div>
+
+            <!-- Módulo 4: RH -->
+            <div id="module-4" class="module-card bg-yellow-100 border-l-4 border-yellow-500 hover:bg-yellow-200" data-module="4">
+                <h2 class="text-lg font-semibold text-yellow-800">Módulo 4: Recursos Humanos (RH)</h2>
+                <p class="text-gray-600 mt-2">Digitalizar e otimizar processos de gestão de pessoas.</p>
+            </div>
+
+            <!-- Módulo 5: Financeiro -->
+            <div id="module-5" class="module-card bg-red-100 border-l-4 border-red-500 hover:bg-red-200" data-module="5">
+                <h2 class="text-lg font-semibold text-red-800">Módulo 5: Financeiro</h2>
+                <p class="text-gray-600 mt-2">Controle de finanças e automação de dados.</p>
+            </div>
+
+            <!-- Módulo 6: Operacional -->
+            <div id="module-6" class="module-card bg-indigo-100 border-l-4 border-indigo-500 hover:bg-indigo-200" data-module="6">
+                <h2 class="text-lg font-semibold text-indigo-800">Módulo 6: Operacional</h2>
+                <p class="text-gray-600 mt-2">Ferramentas ágeis para a gestão das equipes em campo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para exibir detalhes do módulo -->
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="close-button">&times;</span>
+            <h2 id="modal-title" class="text-2xl font-bold text-gray-800 mb-4"></h2>
+            <div id="modal-content-body" class="text-gray-700 space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dados de cada módulo
+        const modulesData = {
+            '1': {
+                title: 'Módulo 1: Dashboard da Direção',
+                kpis: ['Faturamento Total do Mês (filtro por CNPJ)', 'Contas a Pagar (mês atual vs. mês anterior)', 'Contas a Receber (Líquido vs. Bruto)', 'Rescisões (Quantidade e Valor Total)', 'Total de Colaboradores Ativos'],
+                functionalities: ['Entrada, Previsibilidade e Orçamento', 'Lançamentos- lançar previsões(Novo,Editar,Excluir)', 'Parâmetros Gerais (Utilizadores (cadatros/Inativações))', 'Dash principal na intranet', 'Filtros interativos por período', 'Alertas por e-mail/SMS (Google Apps Script)'],
+            },
+            '2': {
+                title: 'Módulo 2: Vendas e Comercial',
+                kpis: ['Vendas: Total de Clientes, Total Prospectado, Fechados no Mês', 'Comercial: Propostas Enviadas vs. Propostas Fechadas'],
+                functionalities: ['Pré-Cadastro (Vendedor)', 'Repositório de Documentos', 'Gerador de Propostas (Comercial)', 'Fluxo de Aprovação (notifica Financeiro e Direção)', 'Envio e Rastreamento de Propostas'],
+            },
+            '3': {
+                title: 'Módulo 3: Jurídico',
+                kpis: ['Contratos Vigentes', 'Contratos a Vencer (nos próximos 90 dias)', 'Total de Processos Judiciais'],
+                functionalities: ['Repositório Central de Contratos', 'Sistema de Versionamento (aditivos)', 'Gerador de Contratos (template)', 'Dashboard de Processos'],
+            },
+            '4': {
+                title: 'Módulo 4: Recursos Humanos (RH)',
+                kpis: ['Total de Colaboradores', 'Faltas no Mês', 'Rescisões no Mês', 'Férias Agendadas', 'Contratados no Mês'],
+                functionalities: ['Cadastro de Novo Colaborador', 'Portal do Colaborador (holerites, férias, atestados, chamados)', 'Gestão de Ponto (upload de folha)', 'Automação de Lembretes (folha de ponto, VT/VR, salário)'],
+            },
+            '5': {
+                title: 'Módulo 5: Financeiro',
+                kpis: ['Custo Total (com filtros)', 'Planejado vs. Realizado', 'Gráfico YTD'],
+                functionalities: ['Lançamento de Despesas (com categorização)', 'Fluxo de Aprovação de Pagamentos (despesas não planejadas > R$ xx.xxx,xx)', 'Módulo Fiscal (NFe, impostos, FGTS)', 'Contabilidade (Contas a Pagar/Receber)'],
+            },
+            '6': {
+                title: 'Módulo 6: Operacional (Supervisor e Gerente)',
+                kpis: ['Total de Faltas no Dia', 'Horas Extras Lançadas', 'Agenda de Visitas (Gerente)'],
+                functionalities: ['Lançamento Diário de Faltas (Supervisor)', 'Gestão de Ocorrências (Supervisor)', 'Lançamento de Despesas (Supervisor)', 'Visão Agregada (Gerente)', 'Mapa de Rotas (Gerente)', 'Gestão de Estoque'],
+            },
+        };
+
+        // Mapeamento de conexões para desenhar as linhas SVG
+        const connections = [
+            { from: 'module-2', to: 'module-3' }, // Vendas -> Jurídico
+            { from: 'module-2', to: 'module-5' }, // Vendas -> Financeiro
+            { from: 'module-3', to: 'module-5' }, // Jurídico -> Financeiro
+            { from: 'module-4', to: 'module-5' }, // RH -> Financeiro
+            { from: 'module-4', to: 'module-1' }, // RH -> Direção
+            { from: 'module-5', to: 'module-1' }, // Financeiro -> Direção
+            { from: 'module-6', to: 'module-4' }, // Operacional -> RH
+            { from: 'module-6', to: 'module-5' }  // Operacional -> Financeiro
+        ];
+
+        // Função para desenhar as linhas SVG
+        function drawConnections() {
+            connections.forEach(conn => {
+                const fromEl = document.getElementById(conn.from);
+                const toEl = document.getElementById(conn.to);
+                const pathEl = document.getElementById(`path-${conn.from.split('-')[1]}-${conn.to.split('-')[1]}`);
+
+                if (fromEl && toEl && pathEl) {
+                    const rect1 = fromEl.getBoundingClientRect();
+                    const rect2 = toEl.getBoundingClientRect();
+                    const containerRect = document.querySelector('.diagram-container').getBoundingClientRect();
+
+                    const x1 = rect1.left + rect1.width / 2 - containerRect.left;
+                    const y1 = rect1.top + rect1.height / 2 - containerRect.top;
+                    const x2 = rect2.left + rect2.width / 2 - containerRect.left;
+                    const y2 = rect2.top + rect2.height / 2 - containerRect.top;
+
+                    // Ajusta os pontos de início e fim para a borda dos elementos
+                    const angle = Math.atan2(y2 - y1, x2 - x1);
+                    const startX = x1 + Math.cos(angle) * (rect1.width / 2);
+                    const startY = y1 + Math.sin(angle) * (rect1.height / 2);
+                    const endX = x2 - Math.cos(angle) * (rect2.width / 2) - 10; // 10px antes para a ponta da seta
+                    const endY = y2 - Math.sin(angle) * (rect2.height / 2);
+
+                    pathEl.setAttribute('d', `M ${startX} ${startY} L ${endX} ${endY}`);
+                }
+            });
+        }
+
+        // Lógica para o modal
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContentBody = document.getElementById('modal-content-body');
+        const closeModalButton = document.getElementById('close-modal');
+
+        // Adiciona event listeners a cada card de módulo
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const moduleId = card.dataset.module;
+                const data = modulesData[moduleId];
+
+                // Limpa o conteúdo anterior
+                modalContentBody.innerHTML = '';
+                
+                // Preenche o modal com os dados do módulo
+                modalTitle.textContent = data.title;
+
+                // Seção de KPIs
+                const kpisSection = document.createElement('div');
+                kpisSection.className = 'bg-gray-50 p-4 rounded-lg';
+                kpisSection.innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">KPIs:</h3>';
+                const kpisList = document.createElement('ul');
+                kpisList.className = 'list-disc list-inside space-y-1 text-sm';
+                data.kpis.forEach(kpi => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = kpi;
+                    kpisList.appendChild(listItem);
+                });
+                kpisSection.appendChild(kpisList);
+                modalContentBody.appendChild(kpisSection);
+
+                // Seção de Funcionalidades
+                const functionalitiesSection = document.createElement('div');
+                functionalitiesSection.className = 'bg-gray-50 p-4 rounded-lg mt-4';
+                functionalitiesSection.innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Funcionalidades:</h3>';
+                const functionalitiesList = document.createElement('ul');
+                functionalitiesList.className = 'list-disc list-inside space-y-1 text-sm';
+                data.functionalities.forEach(func => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = func;
+                    functionalitiesList.appendChild(listItem);
+                });
+                functionalitiesSection.appendChild(functionalitiesList);
+                modalContentBody.appendChild(functionalitiesSection);
+
+                modal.classList.remove('hidden');
+            });
+        });
+
+        // Event listener para fechar o modal
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Fecha o modal ao clicar fora dele
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+        
+        // Desenha as linhas inicialmente e ao redimensionar a janela
+        window.onload = function () {
+            drawConnections();
+        }
+        window.addEventListener('resize', drawConnections);
+
+    </script>
+</body>
+</html>
